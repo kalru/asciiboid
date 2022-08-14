@@ -34,7 +34,7 @@ func main() {
 
 	boids := [10]Boid{}
 	for i := 0; i < 10; i++ {
-		boids[i] = Boid{0, 0, 0}
+		boids[i] = Boid{float32(i), float32(i), 0, 10}
 	}
 
 	s.SetContent(0, 0, 'd', nil, boxStyle)
