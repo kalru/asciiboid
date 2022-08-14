@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"log"
 	"os"
 
@@ -30,14 +29,16 @@ func main() {
 		os.Exit(0)
 	}
 
-	boid1 := Boid{0, 0, 0}
-	fmt.Printf("%s\n", boid1.to_string())
+	// boid1 := Boid{0, 0, 0}
+	// fmt.Printf("%s\n", boid1.to_string())
 
-	s.SetContent(0, 0, 'd', []rune{' ', 'd', ' '}, boxStyle)
-	s.SetContent(0, 0, 'u', []rune{' '}, boxStyle)
-	s.SetContent(0, 0, 'd', []rune{' '}, boxStyle)
-	s.SetContent(0, 0, 'e', []rune{' '}, boxStyle)
+	boids := [10]Boid{}
+	for i := 0; i < 10; i++ {
+		boids[i] = Boid{0, 0, 0}
+	}
 
+	s.SetContent(0, 0, 'd', nil, boxStyle)
+	
 	for {
 		// Update screen
 		s.Show()
