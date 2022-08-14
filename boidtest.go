@@ -38,7 +38,7 @@ func main() {
 	}
 
 	s.SetContent(0, 0, 'd', nil, boxStyle)
-	
+
 	for {
 		// Update screen
 		s.Show()
@@ -46,6 +46,8 @@ func main() {
 		ev := s.PollEvent()
 		// Process event
 		switch ev := ev.(type) {
+		case *tcell.EventResize:
+			s.Sync()
 		case *tcell.EventKey:
 			if ev.Key() == tcell.KeyEscape || ev.Key() == tcell.KeyCtrlC {
 				quit()
