@@ -1,10 +1,6 @@
 package main
 
 import (
-	"fmt"
-	"log"
-	"os"
-
 	"github.com/gdamore/tcell/v2"
 )
 
@@ -59,7 +55,7 @@ func drawBox(s tcell.Screen, x1, y1, x2, y2 int, style tcell.Style, text string)
 
 	drawText(s, x1+1, y1+1, x2-1, y2-1, style, text)
 }
-
+/*
 func main() {
 	defStyle := tcell.StyleDefault.Background(tcell.ColorReset).Foreground(tcell.ColorReset)
 	boxStyle := tcell.StyleDefault.Foreground(tcell.ColorWhite).Background(tcell.ColorPurple)
@@ -126,3 +122,4 @@ func main() {
 		}
 	}
 }
+*/
