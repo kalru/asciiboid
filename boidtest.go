@@ -11,6 +11,8 @@ import (
 func main() {
 	defStyle := tcell.StyleDefault.Background(tcell.ColorReset).Foreground(tcell.ColorReset)
 
+	boxStyle := tcell.StyleDefault.Foreground(tcell.ColorWhite).Background(tcell.ColorPurple)
+
 	// Initialize screen
 	s, err := tcell.NewScreen()
 	if err != nil {
@@ -30,6 +32,11 @@ func main() {
 
 	boid1 := Boid{0, 0, 0}
 	fmt.Printf("%s\n", boid1.to_string())
+
+	s.SetContent(0, 0, 'd', []rune{' ', 'd', ' '}, boxStyle)
+	s.SetContent(0, 0, 'u', []rune{' '}, boxStyle)
+	s.SetContent(0, 0, 'd', []rune{' '}, boxStyle)
+	s.SetContent(0, 0, 'e', []rune{' '}, boxStyle)
 
 	for {
 		// Update screen
