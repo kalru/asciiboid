@@ -44,8 +44,29 @@ func (boid *Boid) run(millis float64, s tcell.Screen) {
 }
 
 func (boid Boid) render(s tcell.Screen) {
-	boxStyle := tcell.StyleDefault.Foreground(tcell.ColorWhite).Background(tcell.ColorReset)
-	s.SetContent(int(math.Round(boid.x)), int(math.Round(boid.y)), 'O', nil, boxStyle)
+	speed := math.Sqrt(boid.dx*boid.dx + boid.dy*boid.dy)
+	boidColor := tcell.PaletteColor(int(1 + int(speed)/5))
+	boidStyle := tcell.StyleDefault.Foreground(boidColor).Background(tcell.ColorReset)
+	angle := math.Atan2(boid.dy, boid.dx)
+	var char rune
+	if angle <= math.Pi/8 && angle > -math.Pi/8 {
+		char = '→'
+	} else if (angle <= math.Pi && angle > math.Pi*7/8) || angle >= -math.Pi && angle <= -math.Pi*7/8 {
+		char = '←'
+	} else if angle > math.Pi/8 && angle <= math.Pi*3/8 {
+		char = '↘'
+	} else if angle > -math.Pi*7/8 && angle <= -math.Pi*5/8 {
+		char = '↖'
+	} else if angle > math.Pi*3/8 && angle <= math.Pi*5/8 {
+		char = '↓'
+	} else if angle > -math.Pi*5/8 && angle <= -math.Pi*3/8 {
+		char = '↑'
+	} else if angle > math.Pi*5/8 && angle <= math.Pi*7/8 {
+		char = '↙'
+	} else if angle > -math.Pi*3/8 && angle <= -math.Pi/8 {
+		char = '↗'
+	}
+	s.SetContent(int(math.Round(boid.x)), int(math.Round(boid.y)), char, nil, boidStyle)
 }
 
 func (boid Boid) clear(s tcell.Screen) {
@@ -127,6 +148,14 @@ func (boid *Boid) limitSpeed() {
 		boid.dx = (boid.dx / speed) * speedLimit
 		boid.dy = (boid.dy / speed) * speedLimit
 	}
+}
+
+func (simulation *Simulation) averageSpeed() float64 {
+	speed := 0.0
+	for _, boid := range simulation.boids {
+		speed += math.Sqrt(boid.dx*boid.dx + boid.dy*boid.dy)
+	}
+	return speed / float64(len(simulation.boids))
 }
 
 func (simulation *Simulation) simulate(millis float64, s tcell.Screen) {

@@ -11,7 +11,6 @@ import (
 
 func main() {
 	defStyle := tcell.StyleDefault.Background(tcell.ColorReset).Foreground(tcell.ColorReset)
-	boxStyle := tcell.StyleDefault.Foreground(tcell.ColorWhite).Background(tcell.ColorReset)
 
 	// Initialize screen
 	s, err := tcell.NewScreen()
@@ -33,7 +32,7 @@ func main() {
 	x_max, y_max := s.Size()
 
 	boids := []*Boid{}
-	for i := 0; i < 50; i++ {
+	for i := 0; i < 100; i++ {
 		boids = append(boids, &Boid{rand.Float64() * float64(x_max), rand.Float64() * float64(y_max),
 			rand.Float64()*40 - 20, rand.Float64()*40 - 20, rand.Float64() * 20})
 	}
@@ -56,16 +55,23 @@ func main() {
 			simulation.simulate(float64(tickRate), s)
 
 			// draw borders
-			for _, i := range []int{1, x_max - 2} {
-				for j := 1; j < y_max-1; j++ {
-					s.SetContent(i, j, '|', nil, boxStyle)
-				}
-			}
-			for _, j := range []int{0, y_max - 1} {
-				for i := 0; i < x_max; i++ {
-					s.SetContent(i, j, '-', nil, boxStyle)
-				}
-			}
+			// for _, i := range []int{1, x_max - 2} {
+			// 	for j := 1; j < y_max-1; j++ {
+			// 		s.SetContent(i, j, '¦', nil, boxStyle)
+			// 	}
+			// }
+			// for _, j := range []int{0, y_max - 1} {
+			// 	for i := 0; i < x_max; i++ {
+			// 		s.SetContent(i, j, '-', nil, boxStyle)
+			// 	}
+			// }
+
+			// draw corners
+			boxStyle := tcell.StyleDefault.Foreground(tcell.PaletteColor(int(simulation.averageSpeed() / 5))).Background(tcell.ColorReset)
+			s.SetContent(0, 0, '⌜', nil, boxStyle)
+			s.SetContent(0, y_max-1, '⌞', nil, boxStyle)
+			s.SetContent(x_max-1, 0, '⌝', nil, boxStyle)
+			s.SetContent(x_max-1, y_max-1, '⌟', nil, boxStyle)
 		}
 	}()
 
