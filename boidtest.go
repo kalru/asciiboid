@@ -37,9 +37,9 @@ func main() {
 	// boid1 := Boid{0, 0, 0}
 	// fmt.Printf("%s\n", boid1.to_string())
 
-	boids := [10]Boid{}
-	for i := 0; i < 10; i++ {
-		boids[i] = Boid{float32(i), float32(i), 0, 10}
+	boids := [1]Boid{}
+	for i := 0; i < 1; i++ {
+		boids[i] = Boid{2, 2, 10, 10, 10}
 	}
 
 	// refresh screen
@@ -54,14 +54,14 @@ func main() {
 	go func() {
 		tickerUpdate := time.NewTicker(100 * time.Millisecond)
 		for range tickerUpdate.C {
-			// TODO only call update method of each boid here passing a time param in millis
-			// s.SetContent(i, 0, ' ', nil, defStyle)
-			// i += 1
-			// s.SetContent(i, 0, 'd', nil, boxStyle)
+			// update boids on screen
+			for i := 0; i < 1; i++ {
+				boids[i].update(100, s)
+			}
 
 			// draw borders
 			for _, i := range []int{1, x_max - 2} {
-				for j := 0; j < y_max; j++ {
+				for j := 1; j < y_max-1; j++ {
 					s.SetContent(i, j, '|', nil, boxStyle)
 				}
 			}
