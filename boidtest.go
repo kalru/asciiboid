@@ -2,6 +2,7 @@ package main
 
 import (
 	"log"
+	"math/rand"
 	"os"
 	"time"
 
@@ -31,16 +32,12 @@ func main() {
 
 	x_max, y_max := s.Size()
 
-	// i := 0
-	// s.SetContent(i, 0, 'd', nil, boxStyle)
-
-	// boid1 := Boid{0, 0, 0}
-	// fmt.Printf("%s\n", boid1.to_string())
-
-	boids := [1]Boid{}
-	for i := 0; i < 1; i++ {
-		boids[i] = Boid{2, 2, 10, 10, 10}
+	boids := []*Boid{}
+	for i := 0; i < 50; i++ {
+		boids = append(boids, &Boid{rand.Float64() * float64(x_max), rand.Float64() * float64(y_max),
+			rand.Float64()*40 - 20, rand.Float64()*40 - 20, rand.Float64() * 20})
 	}
+	simulation := Simulation{boids}
 
 	// refresh screen
 	go func() {
@@ -52,12 +49,11 @@ func main() {
 
 	// simulation update ticks
 	go func() {
-		tickerUpdate := time.NewTicker(100 * time.Millisecond)
+		tickRate := 25
+		tickerUpdate := time.NewTicker(time.Duration(tickRate) * time.Millisecond)
 		for range tickerUpdate.C {
 			// update boids on screen
-			for i := 0; i < 1; i++ {
-				boids[i].update(100, s)
-			}
+			simulation.simulate(float64(tickRate), s)
 
 			// draw borders
 			for _, i := range []int{1, x_max - 2} {
