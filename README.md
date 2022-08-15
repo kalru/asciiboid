@@ -1,3 +1,4 @@
 # asciiboid
 Ascii boid simulation
-Hello Rijk here
+
+Just run `go run .`
